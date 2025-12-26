@@ -16,15 +16,18 @@ export class CountriesService {
    * Filtramos los campos para que la petición sea ligera (?fields=...)
    */
   getAllCountries(): Observable<Country[]> {
-    const url = `${this.apiUrl}/all?fields=name,capital,cca3,flags,population,region`;
+    const fields = 'name,capital,cca3,flags,population,region,subregion,languages,currencies,tld';
+    const url = `${this.apiUrl}/all?fields=${fields}`;
     return this._http.get<Country[]>(url);
   }
 
   /**
    * Busca un país por su código (para la vista de detalle)
    */
-  getCountryByCode(code: string): Observable<Country[]> {
-    const url = `${this.apiUrl}/alpha/${code}`;
+  getCountryByCode(code: string): Observable<any[]> {
+    const fields =
+      'name,capital,cca3,flags,population,region,subregion,languages,currencies,borders,tld';
+    const url = `${this.apiUrl}/alpha/${code}?fields=${fields}`;
     return this._http.get<Country[]>(url);
   }
 

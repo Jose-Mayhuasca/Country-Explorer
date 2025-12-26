@@ -1,0 +1,79 @@
+<div class="container mx-auto px-4 py-8 text-gray-800 dark:text-white">
+
+    <button [routerLink]=" ['/']" class=" mb-10 px-8 py-2 bg-white shadow-md rounded-md hover:shadow-lg transition-all flex items-center gap-2
+        dark:bg-gray-700 dark:text-white">
+        <i class="fa-solid fa-arrow-left"></i> <span>Volver al Inicio</span>
+    </button>
+
+    @if (loading()) {
+    <div class="flex justify-center items-center h-64">
+        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
+    }
+    @else if (country(); as info) {
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+        <img [src]="info.flags.svg" [alt]="info.flags.alt" class="w-full h-auto object-cover shadow-lg rounded-xl">
+
+        <div>
+            <h1 class="text-3xl font-extrabold mb-8">{{ info.name.common }}</h1>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 mb-10 text-sm md:text-base">
+
+                <div class="space-y-3">
+                    <p><span class="font-semibold">Nombre Nativo:</span>
+                        {{ getNativeName(info.name) }}
+                    </p>
+                    <p><span class="font-semibold">Población:</span> {{ info.population | number }}</p>
+                    <p><span class="font-semibold">Región:</span> {{ info.region }}</p>
+                    <p><span class="font-semibold">Subregión:</span> {{ info.subregion || 'N/A' }}</p>
+                    <p><span class="font-semibold">Capital:</span> {{ info.capital?.[0] || 'N/A' }}</p>
+                </div>
+
+                <div class="space-y-3">
+                    <p><span class="font-semibold">Top Level Domain:</span> {{ info.tld?.[0] }}</p>
+
+                    <p>
+                        <span class="font-semibold">Monedas: </span>
+                        @for (currency of info.currencies | keyvalue; track currency.key; let last = $last) {
+                        <span>{{ currency.value.name }} ({{ currency.value.symbol }}){{ !last ? ', ' : '' }}</span>
+                        }
+                    </p>
+
+                    <p>
+                        <span class="font-semibold">Idiomas: </span>
+                        @for (lang of info.languages | keyvalue; track lang.key; let last = $last) {
+                        <span>{{ lang.value }}{{ !last ? ', ' : '' }}</span>
+                        }
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-start sm:items-start gap-4">
+                <span class="font-semibold whitespace-nowrap text-lg">Países Fronterizos:</span>
+
+                <div class="flex flex-wrap gap-2">
+                    @if (info.borders && info.borders.length > 0) {
+                    @for (borderCode of info.borders; track borderCode) {
+                    <a [routerLink]="['/detalle-pais', borderCode]"
+                        class="px-6 py-1 bg-white border border-gray-200 shadow-sm rounded text-sm hover:shadow-md hover:translate-y-[-2px] transition-all cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        {{ borderCode }}
+                    </a>
+                    }
+                    } @else {
+                    <span class="text-gray-500 italic">Es una isla o no tiene fronteras.</span>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+    }
+    @else {
+    <div class="text-center mt-20">
+        <p class="text-2xl font-bold text-red-500 mb-4">No se encontró información para este país.</p>
+        <p class="text-gray-600">Verifica que el código {{id()}} sea correcto.</p>
+    </div>
+    }
+</div>

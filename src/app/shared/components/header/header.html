@@ -1,0 +1,19 @@
+<header class="sticky top-0 z-50 bg-white dark:bg-[#2b3945] shadow-md transition-colors duration-300">
+    <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+
+        <h1 class="font-extrabold text-lg md:text-2xl text-gray-800 dark:text-white">
+            ¿En qué parte del mundo?
+        </h1>
+
+        <button (click)="toggleTheme()"
+            class="shadow-md flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all duration-300 text-gray-800 hover:bg-gray-200 dark:bg-[#202c37] dark:text-white dark:hover:bg-gray-600">
+            @if (isDarkMode()) {
+            <i class="fa-solid fa-sun text-yellow-400"></i> <span>Modo Claro</span>
+            } @else {
+            <i class="fa-regular fa-moon"></i>
+            <span>Modo Oscuro</span>
+            }
+        </button>
+
+    </div>
+</header>

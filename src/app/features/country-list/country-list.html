@@ -1,0 +1,42 @@
+<div class="container mx-auto px-4 py-8">
+
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-12">
+
+        <div class="relative w-full md:w-1/3">
+            <i
+                class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            <input type="text" placeholder="Buscar país..." [value]="searchTerm()"
+                (input)="searchTerm.set($any($event.target).value)"
+                class="w-full pl-12 pr-4 py-4 rounded-lg shadow-md border-none outline-none text-gray-700 dark:bg-[#2b3945] dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 transition-all">
+        </div>
+
+        <div class="relative w-full md:w-48">
+            <select [value]="regionFilter()" (change)="regionFilter.set($any($event.target).value)"
+                class="w-full px-4 py-4 rounded-lg shadow-md border-none outline-none bg-white text-gray-700 dark:bg-[#2b3945] dark:text-white cursor-pointer appearance-none">
+                <option value="">Todas las regiones</option>
+                <option value="Africa">África</option>
+                <option value="Americas">América</option>
+                <option value="Asia">Asia</option>
+                <option value="Europe">Europa</option>
+                <option value="Oceania">Oceanía</option>
+            </select>
+
+            <div class="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-400">
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+
+        @for (item of filteredCountries(); track item.cca3) {
+        <app-country-card [country]="item" />
+        } @empty {
+        <div class="col-span-full text-center py-20">
+            <p class="text-2xl font-bold text-gray-400">No se encontró ningún país con ese nombre</p>
+        </div>
+        }
+
+    </div>
+</div>
